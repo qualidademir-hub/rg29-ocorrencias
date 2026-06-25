@@ -12,8 +12,8 @@
     #tela-login { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
     .login-card { background: white; border-radius: 12px; padding: 40px; width: 360px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; }
     .login-card .logo-container { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
-    .login-card img { height: 65px; width: auto; object-fit: contain; }
-    .login-card h2 { font-size: 20px; font-weight: 700; color: #000080; font-family: 'Georgia', serif; text-transform: uppercase; margin-bottom: 6px; }
+    .login-card img { height: 60px; width: auto; object-fit: contain; display: block; margin: 0 auto; }
+    .login-card h2 { font-size: 20px; font-weight: 700; color: #000080; font-family: 'Georgia', serif; text-transform: uppercase; margin-bottom: 6px; margin-top: 15px; }
     .login-card p { font-size: 13px; color: #666; margin-bottom: 24px; }
     .login-input { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; margin-bottom: 12px; }
     .login-btn { width: 100%; padding: 12px; background: #000080; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
@@ -38,7 +38,7 @@
     .tab-btn { padding: 12px 20px; border: none; background: rgba(255,255,255,0.2); cursor: pointer; font-size: 14px; font-weight: 500; color: white; border-radius: 6px 6px 0 0; transition: all 0.3s; white-space: nowrap; }
     .tab-btn:hover { background: rgba(255,255,255,0.3); }
     .tab-btn.active { background: white; color: #000080; }
-    .tab-qualidade { display: none; background: rgba(255, 165, 0, 0.3); } /* Destaque para Qualidade */
+    .tab-qualidade { display: none; background: rgba(255, 165, 0, 0.3); }
 
     .form-card { background: #fff; border: 0.5px solid #ccc; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
     .form-card h3 { font-size: 16px; font-weight: 500; margin-bottom: 16px; }
@@ -54,10 +54,10 @@
     .form-group textarea { resize: vertical; min-height: 60px; }
     .char-hint { font-size: 11px; color: #777; margin-top: 4px; text-align: right; }
 
-    /* ROLAGEM LATERAL DA CONSULTA (ARRASTAR) */
+    /* CONTROLE DE ROLAGEM LATERAL */
     .table-wrapper { overflow-x: auto; max-width: 100%; border: 1px solid #ddd; border-radius: 6px; background: white; cursor: grab; }
     .table-wrapper:active { cursor: grabbing; }
-    .table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1000px; }
+    .table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1100px; }
     .table th { background: #f5f5f5; padding: 12px 10px; text-align: left; font-weight: 600; border-bottom: 1px solid #ccc; color: #000080; white-space: nowrap; }
     .table td { padding: 12px 10px; border-bottom: 0.5px solid #eee; vertical-align: middle; white-space: nowrap; }
     .table tr:hover { background: #f9f9f9; }
@@ -77,15 +77,20 @@
     .tab-content.active { display: block; }
     .btn-edit { padding: 4px 8px; font-size: 11px; background: #000080; color: white; border: none; border-radius: 4px; cursor: pointer; }
     .btn-edit:hover { background: #0000a0; }
+    .btn-group { display: flex; gap: 12px; margin-top: 20px; }
+    .btn { padding: 10px 16px; border: 0.5px solid #ccc; border-radius: 4px; background: transparent; cursor: pointer; font-size: 14px; font-weight: 500; }
+    .btn:hover { background: #eee; }
+    .btn-primary { background: #000080; color: #fff; border-color: #000080; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
   </style>
 </head>
 <body>
 
-<!-- TELA DE LOGIN -->
 <div id="tela-login">
   <div class="login-card">
     <div class="logo-container">
-      <img id="logo-login" src="https://mirin.com.br/wp-content/uploads/2021/11/logo_mirin_default.png" alt="Logo Mirin">
+      <img id="logo-login" src="" alt="Logo Mirin">
     </div>
     <h2>RG 29</h2>
     <p>Controle de Ocorrências — Mirin</p>
@@ -96,12 +101,11 @@
   </div>
 </div>
 
-<!-- APP PRINCIPAL -->
 <div id="app">
   <div class="container">
     <div class="header-container">
       <div class="logo-box">
-        <img id="logo-app" src="https://mirin.com.br/wp-content/uploads/2021/11/logo_mirin_default.png" alt="Logo Mirin">
+        <img id="logo-app" src="" alt="Logo Mirin">
       </div>
       <div class="header">
         <h1>RG 29 - Controle de Ocorrências</h1>
@@ -118,7 +122,6 @@
       <button class="tab-btn tab-qualidade" id="aba-qualidade" onclick="mudarAba('qualidade', this)">Controle da Qualidade (Filtros)</button>
     </div>
 
-    <!-- FORMULÁRIO -->
     <div class="tab-content active" id="novo">
       <div class="form-card">
         <h3>Nova ocorrência</h3>
@@ -228,7 +231,7 @@
           </div>
           <div class="form-group" style="margin-bottom:12px;">
             <label>Correção imediata <span class="required">*</span></label>
-            <textarea id="correcao" placeholder="Descreva o que foi feito para corrigir o problema..."></textarea>
+            <textarea id="correcao" placeholder="Descreva o que foi feito para corrigir o problem..."></textarea>
           </div>
           <div class="form-row">
             <div class="form-group">
@@ -271,17 +274,16 @@
       </div>
     </div>
 
-    <!-- LISTA DE CONSULTA GERAL -->
     <div class="tab-content" id="lista">
       <div class="form-card">
-        <h3>Ocorrências registradas (Arraste para os lados se faltar informação)</h3>
+        <h3>Ocorrências registradas (Arraste lateralmente se faltar informação)</h3>
         <div class="table-wrapper" id="wrapper-lista">
           <table class="table">
             <thead>
               <tr>
                 <th>Nº</th><th>Data</th><th>Unid. Reg.</th><th>Unid. Causadora</th>
-                <th>Resumo</th><th>Contato</th><th>Ressalva</th>
-                <th>Status</th><th>Responsável Correção</th><th>Ação</th>
+                <th>Resumo</th><th>Responsável Correção</th><th>Contato</th><th>Ressalva</th>
+                <th>Status</th><th>Ação</th>
               </tr>
             </thead>
             <tbody id="tabela-ocorrencias"></tbody>
@@ -290,23 +292,19 @@
       </div>
     </div>
 
-    <!-- ABA 3: CONTROLE DA QUALIDADE COM FILTROS ATÉ 7 -->
     <div class="tab-content" id="qualidade">
       <div class="form-card">
         <h3>Painel de Filtros Avançados da Qualidade</h3>
         
         <div class="filter-grid">
-          <!-- Filtro 1 -->
           <div class="form-group">
             <label>1. Número Ocorrência</label>
             <input type="text" id="f-numero" placeholder="Filtrar por Nº...">
           </div>
-          <!-- Filtro 2 -->
           <div class="form-group">
             <label>2. Data Ocorrência</label>
             <input type="date" id="f-data">
           </div>
-          <!-- Filtro 3 -->
           <div class="form-group">
             <label>3. Unidade Causadora</label>
             <select id="f-unidade">
@@ -316,12 +314,10 @@
               <option value="JAG">JAG</option><option value="JVL">JVL</option>
             </select>
           </div>
-          <!-- Filtro 4 -->
           <div class="form-group">
             <label>4. Resumo Reclamação</label>
             <input type="text" id="f-resumo" placeholder="Termo ou categoria...">
           </div>
-          <!-- Filtro 5 -->
           <div class="form-group">
             <label>5. Status Atual</label>
             <select id="f-status">
@@ -330,12 +326,10 @@
               <option value="fechada">Fechada</option>
             </select>
           </div>
-          <!-- Filtro 6 -->
           <div class="form-group">
             <label>6. Responsável</label>
             <input type="text" id="f-responsavel" placeholder="Nome do responsável...">
           </div>
-          <!-- Filtro 7 -->
           <div class="form-group">
             <label>7. Filtro Avançado (Geral)</label>
             <input type="text" id="f-avancado" placeholder="Qualquer outro termo...">
@@ -352,8 +346,8 @@
             <thead>
               <tr>
                 <th>Nº</th><th>Data</th><th>Unid. Reg.</th><th>Unid. Causadora</th>
-                <th>Resumo Reclamação</th><th>Contato</th><th>Ressalva</th>
-                <th>Status</th><th>Responsável</th><th>Ação</th>
+                <th>Resumo Reclamação</th><th>Responsável</th><th>Contato</th><th>Ressalva</th>
+                <th>Status</th><th>Ação</th>
               </tr>
             </thead>
             <tbody id="tabela-qualidade">
@@ -385,6 +379,9 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
+  // LOGO DA MIRIN EMSTRUTURADO DIRETAMENTE EM DATA URI BASE64 (VAI FUNCIONAR SEMPRE LOCAL E ONLINE)
+  const LOGO_B64 = "data:image/png;base64,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";
+
   let usuarioAtual = null;
   let unidadeRegistro = null;
   let ocorrenciasCache = [];
@@ -412,8 +409,14 @@
     slider.addEventListener('mouseup', () => { isDown = false; });
     slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 2; slider.scrollLeft = scrollLeft - walk; });
   };
-  setupDragScroll('wrapper-lista');
-  setupDragScroll('wrapper-qualidade');
+  
+  // Executa após o carregamento estrutural
+  window.addEventListener('DOMContentLoaded', () => {
+     document.getElementById('logo-login').src = LOGO_B64;
+     document.getElementById('logo-app').src = LOGO_B64;
+     setupDragScroll('wrapper-lista');
+     setupDragScroll('wrapper-qualidade');
+  });
 
   // ─── AUTH ───────────────────────────────────────────────
   onAuthStateChanged(auth, (user) => {
@@ -474,7 +477,6 @@
   window.salvarOcorrencia = async function() {
     if (!validarObrigatorios()) return;
     
-    // Validação extra exigida dos 20 caracteres mínimos
     const textoReclamacao = document.getElementById('reclamacao').value;
     if(textoReclamacao.length < 20) {
         alert('Erro: O campo Reclamação precisa ter no mínimo 20 caracteres detalhando a ocorrência.');
@@ -527,7 +529,7 @@
     btn.textContent = 'Salvar ocorrência';
   };
 
-  // ─── RENDERIZAR TABELA GERAL ───────────────────────────
+  // ─── RENDERIZAR TABELA GERAL (ORDEM DE COLUNAS CORRIGIDA) ───
   function renderizarTabela() {
     const tbody = document.getElementById('tabela-ocorrencias');
     if (ocorrenciasCache.length === 0) {
@@ -541,16 +543,16 @@
         <td><strong>${o.unidadeRegistro || '-'}</strong></td>
         <td>${o.unidadeCausadora || '-'}</td>
         <td title="${o.reclamacao}">${o.resumo || '-'}</td>
+        <td><strong>${o.responsavel || '-'}</strong></td>
         <td><span class="badge badge-${o.contato==='sim'?'sim':'nao'}">${o.contato==='sim'?'Sim':'Não'}</span></td>
         <td><span class="badge badge-${o.ressalva==='com'?'com':'sem'}">${o.ressalva==='com'?'Com':'Sem'}</span></td>
         <td><span class="badge badge-${o.status}">${o.status==='aberta'?'Aberta':'Fechada'}</span></td>
-        <td><strong>${o.responsavel || '-'}</strong></td>
         <td><button class="btn btn-edit" onclick="editarOcorrencia('${o.id}')">Editar</button></td>
       </tr>
     `).join('');
   }
 
-  // ─── FILTROS DA QUALIDADE (ABA 3) ──────────────────────
+  // ─── FILTROS DA QUALIDADE (ORDEM DE COLUNAS CORRIGIDA) ───
   window.filtrarQualidade = function() {
     const fNum = document.getElementById('f-numero').value.toLowerCase();
     const fData = document.getElementById('f-data').value;
@@ -573,7 +575,7 @@
 
     const tbody = document.getElementById('tabela-qualidade');
     if(filtrados.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#999;padding:20px;">Nenhum registro correspondente aos 7 filtros.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#999;padding:20px;">Nenhum registro correspondente aos filtros.</td></tr>';
         return;
     }
 
@@ -584,10 +586,10 @@
         <td><strong>${o.unidadeRegistro || '-'}</strong></td>
         <td>${o.unidadeCausadora || '-'}</td>
         <td title="${o.reclamacao}"><strong>${o.resumo || '-'}</strong></td>
+        <td><strong>${o.responsavel || '-'}</strong></td>
         <td><span class="badge badge-${o.contato==='sim'?'sim':'nao'}">${o.contato==='sim'?'Sim':'Não'}</span></td>
         <td><span class="badge badge-${o.ressalva==='com'?'com':'sem'}">${o.ressalva==='com'?'Com':'Sem'}</span></td>
         <td><span class="badge badge-${o.status}">${o.status==='aberta'?'Aberta':'Fechada'}</span></td>
-        <td>${o.responsavel || '-'}</td>
         <td><button class="btn btn-edit" onclick="editarOcorrencia('${o.id}')">Editar</button></td>
       </tr>
     `).join('');
