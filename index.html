@@ -1,6 +1,3 @@
-bash
-
-cat > /home/claude/RG_29.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -14,7 +11,8 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
     /* TELA DE LOGIN */
     #tela-login { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
     .login-card { background: white; border-radius: 12px; padding: 40px; width: 360px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; }
-    .login-card img { height: 55px; margin-bottom: 20px; }
+    .login-card .logo-container { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
+    .login-card img { height: 65px; width: auto; object-fit: contain; }
     .login-card h2 { font-size: 20px; font-weight: 700; color: #000080; font-family: 'Georgia', serif; text-transform: uppercase; margin-bottom: 6px; }
     .login-card p { font-size: 13px; color: #666; margin-bottom: 24px; }
     .login-input { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; margin-bottom: 12px; }
@@ -24,22 +22,23 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
 
     /* APP PRINCIPAL */
     #app { display: none; }
-    .container { max-width: 850px; margin: 0 auto; padding: 15px; }
+    .container { max-width: 1050px; margin: 0 auto; padding: 15px; }
 
     .header-container { display: flex; align-items: center; gap: 15px; margin-bottom: 24px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     .logo-box { display: flex; align-items: center; flex-shrink: 0; }
-    .logo-box img { height: 45px; width: auto; display: block; }
+    .logo-box img { height: 50px; width: auto; display: block; object-fit: contain; }
     .header { margin-bottom: 0; border-bottom: none; padding-bottom: 0; text-align: left; flex: 1; }
-    .header h1 { font-size: 28px; font-weight: 800; text-transform: uppercase; color: #000080; letter-spacing: 0.5px; font-family: 'Georgia', 'Trebuchet MS', serif; margin: 0; }
+    .header h1 { font-size: 26px; font-weight: 800; text-transform: uppercase; color: #000080; letter-spacing: 0.5px; font-family: 'Georgia', 'Trebuchet MS', serif; margin: 0; }
     .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
     .usuario-badge { background: #000080; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
     .logout-btn { background: transparent; border: 1px solid #ccc; color: #666; padding: 4px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; }
     .logout-btn:hover { background: #f0f0f0; }
 
-    .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: none; }
-    .tab-btn { padding: 12px 20px; border: none; background: rgba(255,255,255,0.2); cursor: pointer; font-size: 14px; font-weight: 500; color: white; border-radius: 6px 6px 0 0; transition: all 0.3s; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: none; overflow-x: auto; }
+    .tab-btn { padding: 12px 20px; border: none; background: rgba(255,255,255,0.2); cursor: pointer; font-size: 14px; font-weight: 500; color: white; border-radius: 6px 6px 0 0; transition: all 0.3s; white-space: nowrap; }
     .tab-btn:hover { background: rgba(255,255,255,0.3); }
     .tab-btn.active { background: white; color: #000080; }
+    .tab-qualidade { display: none; background: rgba(255, 165, 0, 0.3); } /* Destaque para Qualidade */
 
     .form-card { background: #fff; border: 0.5px solid #ccc; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
     .form-card h3 { font-size: 16px; font-weight: 500; margin-bottom: 16px; }
@@ -47,24 +46,24 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
     .form-section:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
     .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .form-row.col3 { grid-template-columns: repeat(3, 1fr); }
+    .form-row.col4 { grid-template-columns: repeat(4, 1fr); }
     .form-group { display: flex; flex-direction: column; }
     .form-group label { font-size: 13px; font-weight: 500; margin-bottom: 6px; color: #333; }
     .form-group label .required { color: red; }
     .form-group input, .form-group select, .form-group textarea { padding: 8px 12px; border: 0.5px solid #ccc; border-radius: 4px; font-size: 14px; font-family: inherit; }
     .form-group textarea { resize: vertical; min-height: 60px; }
+    .char-hint { font-size: 11px; color: #777; margin-top: 4px; text-align: right; }
 
-    .btn-group { display: flex; gap: 12px; margin-top: 20px; }
-    .btn { padding: 10px 16px; border: 0.5px solid #ccc; border-radius: 4px; background: transparent; cursor: pointer; font-size: 14px; font-weight: 500; }
-    .btn:hover { background: #eee; }
-    .btn-primary { background: #000080; color: #fff; border-color: #000080; }
-    .btn-primary:hover { opacity: 0.9; }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .table-wrapper { overflow-x: auto; }
-    .table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    .table th { background: #eee; padding: 12px 8px; text-align: left; font-weight: 500; border-bottom: 0.5px solid #ccc; }
-    .table td { padding: 12px 8px; border-bottom: 0.5px solid #ccc; }
+    /* ROLAGEM LATERAL DA CONSULTA (ARRASTAR) */
+    .table-wrapper { overflow-x: auto; max-width: 100%; border: 1px solid #ddd; border-radius: 6px; background: white; cursor: grab; }
+    .table-wrapper:active { cursor: grabbing; }
+    .table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1000px; }
+    .table th { background: #f5f5f5; padding: 12px 10px; text-align: left; font-weight: 600; border-bottom: 1px solid #ccc; color: #000080; white-space: nowrap; }
+    .table td { padding: 12px 10px; border-bottom: 0.5px solid #eee; vertical-align: middle; white-space: nowrap; }
     .table tr:hover { background: #f9f9f9; }
+
+    /* FILTROS DA QUALIDADE */
+    .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; background: #fdfdfd; padding: 15px; border-radius: 6px; border: 1px dashed #000080; }
 
     .badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 500; }
     .badge-aberta { background: #fff3cd; color: #856404; }
@@ -76,9 +75,8 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
 
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-    .btn-edit { padding: 4px 8px; font-size: 11px; }
-
-    .loading { text-align: center; color: white; padding: 40px; font-size: 16px; }
+    .btn-edit { padding: 4px 8px; font-size: 11px; background: #000080; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-edit:hover { background: #0000a0; }
   </style>
 </head>
 <body>
@@ -86,7 +84,9 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
 <!-- TELA DE LOGIN -->
 <div id="tela-login">
   <div class="login-card">
-    <img id="logo-login" src="" alt="Logo Mirin">
+    <div class="logo-container">
+      <img id="logo-login" src="https://mirin.com.br/wp-content/uploads/2021/11/logo_mirin_default.png" alt="Logo Mirin">
+    </div>
     <h2>RG 29</h2>
     <p>Controle de Ocorrências — Mirin</p>
     <input class="login-input" type="email" id="login-email" placeholder="seu@email.com">
@@ -101,7 +101,7 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
   <div class="container">
     <div class="header-container">
       <div class="logo-box">
-        <img id="logo-app" src="" alt="Logo Mirin">
+        <img id="logo-app" src="https://mirin.com.br/wp-content/uploads/2021/11/logo_mirin_default.png" alt="Logo Mirin">
       </div>
       <div class="header">
         <h1>RG 29 - Controle de Ocorrências</h1>
@@ -115,6 +115,7 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
     <div class="tabs">
       <button class="tab-btn active" onclick="mudarAba('novo', this)">Registrar nova ocorrência</button>
       <button class="tab-btn" onclick="mudarAba('lista', this)">Consultar ocorrências</button>
+      <button class="tab-btn tab-qualidade" id="aba-qualidade" onclick="mudarAba('qualidade', this)">Controle da Qualidade (Filtros)</button>
     </div>
 
     <!-- FORMULÁRIO -->
@@ -169,15 +170,9 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
               <input type="text" id="remetente" placeholder="Opcional">
             </div>
             <div class="form-group">
-              <label>Destinatário</label>
-              <input type="text" id="destinatario" placeholder="Opcional">
-            </div>
-            <div class="form-group">
               <label>Volumes</label>
               <input type="number" id="volumes" min="0" placeholder="Opcional">
             </div>
-          </div>
-          <div class="form-row" style="margin-top:16px;">
             <div class="form-group">
               <label>Volumes com problema</label>
               <input type="number" id="volumesProblema" min="0" placeholder="Opcional">
@@ -188,8 +183,9 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
         <div class="form-section">
           <h4 style="font-size:14px;font-weight:500;margin-bottom:12px;color:#666;">Reclamação</h4>
           <div class="form-group" style="margin-bottom:12px;">
-            <label>Reclamação <span class="required">*</span></label>
-            <textarea id="reclamacao" placeholder="Descreva a reclamação do cliente..."></textarea>
+            <label>Reclamação <span class="required">* (Mínimo de 20 caracteres)</span></label>
+            <textarea id="reclamacao" minlength="20" placeholder="Descreva a reclamação do cliente com detalhes..."></textarea>
+            <span class="char-hint" id="char-count">0 / 20 caracteres mínimos</span>
           </div>
           <div class="form-group">
             <label>Resumo da reclamação <span class="required">*</span></label>
@@ -275,17 +271,17 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
       </div>
     </div>
 
-    <!-- LISTA -->
+    <!-- LISTA DE CONSULTA GERAL -->
     <div class="tab-content" id="lista">
       <div class="form-card">
-        <h3>Ocorrências registradas</h3>
-        <div class="table-wrapper">
+        <h3>Ocorrências registradas (Arraste para os lados se faltar informação)</h3>
+        <div class="table-wrapper" id="wrapper-lista">
           <table class="table">
             <thead>
               <tr>
                 <th>Nº</th><th>Data</th><th>Unid. Reg.</th><th>Unid. Causadora</th>
-                <th>Resumo</th><th>Destinatário</th><th>Contato</th><th>Ressalva</th>
-                <th>Status</th><th>Ação</th>
+                <th>Resumo</th><th>Contato</th><th>Ressalva</th>
+                <th>Status</th><th>Responsável Correção</th><th>Ação</th>
               </tr>
             </thead>
             <tbody id="tabela-ocorrencias"></tbody>
@@ -293,6 +289,81 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
         </div>
       </div>
     </div>
+
+    <!-- ABA 3: CONTROLE DA QUALIDADE COM FILTROS ATÉ 7 -->
+    <div class="tab-content" id="qualidade">
+      <div class="form-card">
+        <h3>Painel de Filtros Avançados da Qualidade</h3>
+        
+        <div class="filter-grid">
+          <!-- Filtro 1 -->
+          <div class="form-group">
+            <label>1. Número Ocorrência</label>
+            <input type="text" id="f-numero" placeholder="Filtrar por Nº...">
+          </div>
+          <!-- Filtro 2 -->
+          <div class="form-group">
+            <label>2. Data Ocorrência</label>
+            <input type="date" id="f-data">
+          </div>
+          <!-- Filtro 3 -->
+          <div class="form-group">
+            <label>3. Unidade Causadora</label>
+            <select id="f-unidade">
+              <option value="">Todas...</option>
+              <option value="CXS">CXS</option><option value="LGS">LGS</option>
+              <option value="FLN">FLN</option><option value="ARR">ARR</option>
+              <option value="JAG">JAG</option><option value="JVL">JVL</option>
+            </select>
+          </div>
+          <!-- Filtro 4 -->
+          <div class="form-group">
+            <label>4. Resumo Reclamação</label>
+            <input type="text" id="f-resumo" placeholder="Termo ou categoria...">
+          </div>
+          <!-- Filtro 5 -->
+          <div class="form-group">
+            <label>5. Status Atual</label>
+            <select id="f-status">
+              <option value="">Todos</option>
+              <option value="aberta">Aberta</option>
+              <option value="fechada">Fechada</option>
+            </select>
+          </div>
+          <!-- Filtro 6 -->
+          <div class="form-group">
+            <label>6. Responsável</label>
+            <input type="text" id="f-responsavel" placeholder="Nome do responsável...">
+          </div>
+          <!-- Filtro 7 -->
+          <div class="form-group">
+            <label>7. Filtro Avançado (Geral)</label>
+            <input type="text" id="f-avancado" placeholder="Qualquer outro termo...">
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 15px; display: flex; gap: 10px;">
+            <button class="btn btn-primary" onclick="filtrarQualidade()">Aplicar Filtros</button>
+            <button class="btn" onclick="limparFiltrosQualidade()">Limpar Filtros</button>
+        </div>
+
+        <div class="table-wrapper" id="wrapper-qualidade">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nº</th><th>Data</th><th>Unid. Reg.</th><th>Unid. Causadora</th>
+                <th>Resumo Reclamação</th><th>Contato</th><th>Ressalva</th>
+                <th>Status</th><th>Responsável</th><th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-qualidade">
+               <tr><td colspan="10" style="text-align:center;color:#999;padding:20px;">Use os filtros acima para listar os dados de qualidade.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -314,27 +385,50 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Logo em base64 (mantido do arquivo original)
-  const LOGO_B64 = document.querySelector ? '' : '';
-
   let usuarioAtual = null;
   let unidadeRegistro = null;
   let ocorrenciasCache = [];
   let editandoId = null;
 
-  // ─── LOGO ───────────────────────────────────────────────
-  // Buscamos a img do arquivo original para reusar o base64
-  // Vai ser injetado via JS abaixo
+  // Contador em tempo real e monitor de tamanho do campo reclamação
+  const recField = document.getElementById('reclamacao');
+  recField.addEventListener('input', () => {
+    const len = recField.value.length;
+    const hint = document.getElementById('char-count');
+    hint.textContent = `${len} / 20 caracteres mínimos`;
+    if(len >= 20) {
+        hint.style.color = 'green';
+    } else {
+        hint.style.color = '#777';
+    }
+  });
+
+  // Eventos de arrastar para o lado com o mouse nas tabelas
+  const setupDragScroll = (elementId) => {
+    const slider = document.getElementById(elementId);
+    let isDown = false; let startX; let scrollLeft;
+    slider.addEventListener('mousedown', (e) => { isDown = true; startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
+    slider.addEventListener('mouseleave', () => { isDown = false; });
+    slider.addEventListener('mouseup', () => { isDown = false; });
+    slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 2; slider.scrollLeft = scrollLeft - walk; });
+  };
+  setupDragScroll('wrapper-lista');
+  setupDragScroll('wrapper-qualidade');
 
   // ─── AUTH ───────────────────────────────────────────────
   onAuthStateChanged(auth, (user) => {
     if (user) {
       usuarioAtual = user;
-      // Extrai sigla antes do @ → cxs@mirin.com.br → CXS
       unidadeRegistro = user.email.split('@')[0].toUpperCase();
       document.getElementById('tela-login').style.display = 'none';
       document.getElementById('app').style.display = 'block';
       document.getElementById('badge-unidade').textContent = unidadeRegistro;
+      
+      // Regra de Visualização: Se for do setor qualidade, exibe a aba 3
+      if(user.email.includes('qualidade') || user.email.includes('admin') || unidadeRegistro === 'CXS') {
+         document.getElementById('aba-qualidade').style.display = 'block';
+      }
+      
       iniciarApp();
     } else {
       document.getElementById('tela-login').style.display = 'flex';
@@ -358,14 +452,8 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
     await signOut(auth);
   };
 
-  // Enter no login
-  document.getElementById('login-senha').addEventListener('keydown', e => {
-    if (e.key === 'Enter') window.fazerLogin();
-  });
-
   // ─── APP ────────────────────────────────────────────────
   function iniciarApp() {
-    // Listener em tempo real — atualiza tabela automaticamente
     const q = query(collection(db, 'ocorrencias'), orderBy('criadoEm', 'desc'));
     onSnapshot(q, (snapshot) => {
       ocorrenciasCache = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -385,10 +473,18 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
   // ─── SALVAR ─────────────────────────────────────────────
   window.salvarOcorrencia = async function() {
     if (!validarObrigatorios()) return;
+    
+    // Validação extra exigida dos 20 caracteres mínimos
+    const textoReclamacao = document.getElementById('reclamacao').value;
+    if(textoReclamacao.length < 20) {
+        alert('Erro: O campo Reclamação precisa ter no mínimo 20 caracteres detalhando a ocorrência.');
+        document.getElementById('reclamacao').focus();
+        return;
+    }
+
     const btn = document.getElementById('btn-salvar');
     btn.disabled = true;
     btn.textContent = 'Salvando...';
-
     const dataSolucao = document.getElementById('dataSolucao').value || null;
 
     const ocorrencia = {
@@ -397,10 +493,9 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
       nfe: document.getElementById('nfe').value || null,
       cte: document.getElementById('cte').value,
       remetente: document.getElementById('remetente').value || null,
-      destinatario: document.getElementById('destinatario').value || null,
       volumes: document.getElementById('volumes').value || null,
       volumesProblema: document.getElementById('volumesProblema').value || null,
-      reclamacao: document.getElementById('reclamacao').value,
+      reclamacao: textoReclamacao,
       resumo: document.getElementById('resumo').value,
       unidadeCausadora: document.getElementById('unidade').value,
       unidadeRegistro: unidadeRegistro,
@@ -418,7 +513,7 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
     try {
       if (editandoId) {
         await updateDoc(doc(db, 'ocorrencias', editandoId), ocorrencia);
-        alert('Ocorrência atualizada!');
+        alert('Ocorrência atualizada com sucesso!');
         editandoId = null;
       } else {
         await addDoc(collection(db, 'ocorrencias'), ocorrencia);
@@ -428,40 +523,11 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
     } catch (e) {
       alert('Erro ao salvar: ' + e.message);
     }
-
     btn.disabled = false;
     btn.textContent = 'Salvar ocorrência';
   };
 
-  // ─── EDITAR ─────────────────────────────────────────────
-  window.editarOcorrencia = function(id) {
-    const o = ocorrenciasCache.find(x => x.id === id);
-    if (!o) return;
-    editandoId = id;
-
-    document.getElementById('numero').value = o.numero;
-    document.getElementById('data').value = o.data;
-    document.getElementById('nfe').value = o.nfe || '';
-    document.getElementById('cte').value = o.cte || '';
-    document.getElementById('remetente').value = o.remetente || '';
-    document.getElementById('destinatario').value = o.destinatario || '';
-    document.getElementById('volumes').value = o.volumes || '';
-    document.getElementById('volumesProblema').value = o.volumesProblema || '';
-    document.getElementById('reclamacao').value = o.reclamacao;
-    document.getElementById('resumo').value = o.resumo;
-    document.getElementById('unidade').value = o.unidadeCausadora;
-    document.getElementById('causador').value = o.causador || '';
-    document.getElementById('correcao').value = o.correcao;
-    document.getElementById('responsavel').value = o.responsavel;
-    document.getElementById('dataSolucao').value = o.dataSolucao || '';
-    document.getElementById('contato').value = o.contato;
-    document.getElementById('ressalva').value = o.ressalva;
-
-    document.getElementById('btn-salvar').textContent = 'Atualizar ocorrência';
-    mudarAba('novo', document.querySelectorAll('.tab-btn')[0]);
-  };
-
-  // ─── TABELA ─────────────────────────────────────────────
+  // ─── RENDERIZAR TABELA GERAL ───────────────────────────
   function renderizarTabela() {
     const tbody = document.getElementById('tabela-ocorrencias');
     if (ocorrenciasCache.length === 0) {
@@ -474,17 +540,64 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
         <td>${o.data ? new Date(o.data + 'T12:00:00').toLocaleDateString('pt-BR') : '-'}</td>
         <td><strong>${o.unidadeRegistro || '-'}</strong></td>
         <td>${o.unidadeCausadora || '-'}</td>
-        <td title="${o.resumo}">${o.resumo ? o.resumo.substring(0,22)+'...' : '-'}</td>
-        <td>${o.destinatario ? o.destinatario.substring(0,18)+'...' : '-'}</td>
+        <td title="${o.reclamacao}">${o.resumo || '-'}</td>
         <td><span class="badge badge-${o.contato==='sim'?'sim':'nao'}">${o.contato==='sim'?'Sim':'Não'}</span></td>
         <td><span class="badge badge-${o.ressalva==='com'?'com':'sem'}">${o.ressalva==='com'?'Com':'Sem'}</span></td>
         <td><span class="badge badge-${o.status}">${o.status==='aberta'?'Aberta':'Fechada'}</span></td>
+        <td><strong>${o.responsavel || '-'}</strong></td>
         <td><button class="btn btn-edit" onclick="editarOcorrencia('${o.id}')">Editar</button></td>
       </tr>
     `).join('');
   }
 
-  // ─── HELPERS ────────────────────────────────────────────
+  // ─── FILTROS DA QUALIDADE (ABA 3) ──────────────────────
+  window.filtrarQualidade = function() {
+    const fNum = document.getElementById('f-numero').value.toLowerCase();
+    const fData = document.getElementById('f-data').value;
+    const fUnidade = document.getElementById('f-unidade').value;
+    const fResumo = document.getElementById('f-resumo').value.toLowerCase();
+    const fStatus = document.getElementById('f-status').value;
+    const fResp = document.getElementById('f-responsavel').value.toLowerCase();
+    const fAvancado = document.getElementById('f-avancado').value.toLowerCase();
+
+    const filtrados = ocorrenciasCache.filter(o => {
+        if (fNum && !o.numero.toLowerCase().includes(fNum)) return false;
+        if (fData && o.data !== fData) return false;
+        if (fUnidade && o.unidadeCausadora !== fUnidade) return false;
+        if (fResumo && !o.resumo.toLowerCase().includes(fResumo)) return false;
+        if (fStatus && o.status !== fStatus) return false;
+        if (fResp && !o.responsavel.toLowerCase().includes(fResp)) return false;
+        if (fAvancado && !( (o.reclamacao && o.reclamacao.toLowerCase().includes(fAvancado)) || (o.cte && o.cte.toLowerCase().includes(fAvancado)) )) return false;
+        return true;
+    });
+
+    const tbody = document.getElementById('tabela-qualidade');
+    if(filtrados.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#999;padding:20px;">Nenhum registro correspondente aos 7 filtros.</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = filtrados.map(o => `
+      <tr>
+        <td>${o.numero}</td>
+        <td>${o.data ? new Date(o.data + 'T12:00:00').toLocaleDateString('pt-BR') : '-'}</td>
+        <td><strong>${o.unidadeRegistro || '-'}</strong></td>
+        <td>${o.unidadeCausadora || '-'}</td>
+        <td title="${o.reclamacao}"><strong>${o.resumo || '-'}</strong></td>
+        <td><span class="badge badge-${o.contato==='sim'?'sim':'nao'}">${o.contato==='sim'?'Sim':'Não'}</span></td>
+        <td><span class="badge badge-${o.ressalva==='com'?'com':'sem'}">${o.ressalva==='com'?'Com':'Sem'}</span></td>
+        <td><span class="badge badge-${o.status}">${o.status==='aberta'?'Aberta':'Fechada'}</span></td>
+        <td>${o.responsavel || '-'}</td>
+        <td><button class="btn btn-edit" onclick="editarOcorrencia('${o.id}')">Editar</button></td>
+      </tr>
+    `).join('');
+  };
+
+  window.limparFiltrosQualidade = function() {
+    ['f-numero','f-data','f-unidade','f-resumo','f-status','f-responsavel','f-avancado'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('tabela-qualidade').innerHTML = '<tr><td colspan="10" style="text-align:center;color:#999;padding:20px;">Filtros limpos. Aplique novos parâmetros.</td></tr>';
+  };
+
   window.mudarAba = function(aba, botao) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -493,28 +606,47 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
     if (aba === 'lista') renderizarTabela();
   };
 
+  window.editarOcorrencia = function(id) {
+    const o = ocorrenciasCache.find(x => x.id === id);
+    if (!o) return;
+    editandoId = id;
+    document.getElementById('numero').value = o.numero;
+    document.getElementById('data').value = o.data;
+    document.getElementById('nfe').value = o.nfe || '';
+    document.getElementById('cte').value = o.cte || '';
+    document.getElementById('remetente').value = o.remetente || '';
+    document.getElementById('volumes').value = o.volumes || '';
+    document.getElementById('volumesProblema').value = o.volumesProblema || '';
+    document.getElementById('reclamacao').value = o.reclamacao;
+    document.getElementById('resumo').value = o.resumo;
+    document.getElementById('unidade').value = o.unidadeCausadora;
+    document.getElementById('causador').value = o.causador || '';
+    document.getElementById('correcao').value = o.correcao;
+    document.getElementById('responsavel').value = o.responsavel;
+    document.getElementById('dataSolucao').value = o.dataSolucao || '';
+    document.getElementById('contato').value = o.contato;
+    document.getElementById('ressalva').value = o.ressalva;
+    document.getElementById('btn-salvar').textContent = 'Atualizar ocorrência';
+    mudarAba('novo', document.querySelectorAll('.tab-btn')[0]);
+  };
+
   window.limparFormulario = function() {
     editandoId = null;
     document.getElementById('btn-salvar').textContent = 'Salvar ocorrência';
     document.getElementById('data').valueAsDate = new Date();
-    ['nfe','cte','remetente','destinatario','reclamacao','causador','correcao','responsavel'].forEach(id => document.getElementById(id).value = '');
+    ['nfe','cte','remetente','reclamacao','causador','correcao','responsavel'].forEach(id => document.getElementById(id).value = '');
     ['volumes','volumesProblema'].forEach(id => document.getElementById(id).value = '');
     ['resumo','unidade','contato','ressalva'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('dataSolucao').value = '';
+    document.getElementById('char-count').textContent = '0 / 20 caracteres mínimos';
     atualizarNumero();
   };
 
   function validarObrigatorios() {
     const campos = ['data','unidade','cte','reclamacao','resumo','correcao','responsavel','contato','ressalva'];
-    const nomes = {
-      data:'Data', unidade:'Unidade causadora', cte:'CT-e',
-      reclamacao:'Reclamação', resumo:'Resumo da reclamação',
-      correcao:'Correção imediata', responsavel:'Responsável',
-      contato:'Contato com cliente', ressalva:'Ressalva'
-    };
     for (let campo of campos) {
       if (!document.getElementById(campo).value) {
-        alert('Campo obrigatório: ' + nomes[campo]);
+        alert('Por favor, preencha o campo obrigatório remanescente.');
         document.getElementById(campo).focus();
         return false;
       }
@@ -524,9 +656,3 @@ cat > /home/claude/RG_29.html << 'HTMLEOF'
 </script>
 </body>
 </html>
-HTMLEOF
-echo "Arquivo criado com sucesso"
-Saída
-
-Arquivo criado com sucesso
-Concluído
