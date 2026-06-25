@@ -1,479 +1,532 @@
+bash
+
+cat > /home/claude/RG_29.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RG 29 - Controle de Ocorrências</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif); color: var(--color-text-primary, #333); background: linear-gradient(135deg, #000080 0%, #000050 100%); min-height: 100vh; }
-        
-        /* Ajustando as margens para não ficarem muito largas */
-        .container { max-width: 850px; margin: 0 auto; padding: 15px; }
-        
-        /* Layout flexível para alinhar o logo ao lado do título */
-        .header-container { display: flex; align-items: center; gap: 15px; margin-bottom: 24px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .logo-box { display: flex; align-items: center; flex-shrink: 0; }
-        .logo-box img { height: 45px; width: auto; display: block; }
-        .header { margin-bottom: 0; border-bottom: none; padding-bottom: 0; text-align: left; }
-        
-        .header h1 { font-size: 28px; font-weight: 800; text-transform: uppercase; color: #000080; letter-spacing: 0.5px; font-family: 'Georgia', 'Trebuchet MS', 'Segoe UI', sans-serif; margin: 0; }
-        .header p { font-size: 13px; color: var(--color-text-secondary, #666); margin-top: 4px; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RG 29 - Controle de Ocorrências</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; background: linear-gradient(135deg, #000080 0%, #000050 100%); min-height: 100vh; }
 
-        .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: none; }
-        .tab-btn { padding: 12px 20px; border: none; background: rgba(255, 255, 255, 0.2); cursor: pointer; font-size: 14px; font-weight: 500; color: white; border-radius: 6px 6px 0 0; transition: all 0.3s; }
-        .tab-btn:hover { background: rgba(255, 255, 255, 0.3); }
-        .tab-btn.active { background: white; color: #000080; border-bottom: none; }
+    /* TELA DE LOGIN */
+    #tela-login { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .login-card { background: white; border-radius: 12px; padding: 40px; width: 360px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; }
+    .login-card img { height: 55px; margin-bottom: 20px; }
+    .login-card h2 { font-size: 20px; font-weight: 700; color: #000080; font-family: 'Georgia', serif; text-transform: uppercase; margin-bottom: 6px; }
+    .login-card p { font-size: 13px; color: #666; margin-bottom: 24px; }
+    .login-input { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; margin-bottom: 12px; }
+    .login-btn { width: 100%; padding: 12px; background: #000080; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .login-btn:hover { background: #0000a0; }
+    .login-erro { color: red; font-size: 13px; margin-top: 10px; display: none; }
 
-        .form-card { background: var(--color-background-primary, #fff); border: 0.5px solid var(--color-border-tertiary, #ccc); border-radius: var(--border-radius-lg, 8px); padding: 20px; margin-bottom: 20px; }
-        .form-card h3 { font-size: 16px; font-weight: 500; margin-bottom: 16px; }
+    /* APP PRINCIPAL */
+    #app { display: none; }
+    .container { max-width: 850px; margin: 0 auto; padding: 15px; }
 
-        .form-section { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 0.5px solid var(--color-border-tertiary, #ccc); }
-        .form-section:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+    .header-container { display: flex; align-items: center; gap: 15px; margin-bottom: 24px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .logo-box { display: flex; align-items: center; flex-shrink: 0; }
+    .logo-box img { height: 45px; width: auto; display: block; }
+    .header { margin-bottom: 0; border-bottom: none; padding-bottom: 0; text-align: left; flex: 1; }
+    .header h1 { font-size: 28px; font-weight: 800; text-transform: uppercase; color: #000080; letter-spacing: 0.5px; font-family: 'Georgia', 'Trebuchet MS', serif; margin: 0; }
+    .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+    .usuario-badge { background: #000080; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .logout-btn { background: transparent; border: 1px solid #ccc; color: #666; padding: 4px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; }
+    .logout-btn:hover { background: #f0f0f0; }
 
-        .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-        .form-row.col3 { grid-template-columns: repeat(3, 1fr); }
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: none; }
+    .tab-btn { padding: 12px 20px; border: none; background: rgba(255,255,255,0.2); cursor: pointer; font-size: 14px; font-weight: 500; color: white; border-radius: 6px 6px 0 0; transition: all 0.3s; }
+    .tab-btn:hover { background: rgba(255,255,255,0.3); }
+    .tab-btn.active { background: white; color: #000080; }
 
-        .form-group { display: flex; flex-direction: column; }
-        .form-group label { font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary, #333); }
-        .form-group label .required { color: var(--color-text-danger, red); }
-        .form-group input, .form-group select, .form-group textarea { padding: 8px 12px; border: 0.5px solid var(--color-border-tertiary, #ccc); border-radius: var(--border-radius-md, 4px); font-size: 14px; font-family: var(--font-sans, inherit); }
-        .form-group textarea { resize: vertical; min-height: 60px; }
+    .form-card { background: #fff; border: 0.5px solid #ccc; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    .form-card h3 { font-size: 16px; font-weight: 500; margin-bottom: 16px; }
+    .form-section { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 0.5px solid #ddd; }
+    .form-section:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+    .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .form-row.col3 { grid-template-columns: repeat(3, 1fr); }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group label { font-size: 13px; font-weight: 500; margin-bottom: 6px; color: #333; }
+    .form-group label .required { color: red; }
+    .form-group input, .form-group select, .form-group textarea { padding: 8px 12px; border: 0.5px solid #ccc; border-radius: 4px; font-size: 14px; font-family: inherit; }
+    .form-group textarea { resize: vertical; min-height: 60px; }
 
-        .btn-group { display: flex; gap: 12px; margin-top: 20px; }
-        .btn { padding: 10px 16px; border: 0.5px solid var(--color-border-secondary, #ccc); border-radius: var(--border-radius-md, 4px); background: transparent; cursor: pointer; font-size: 14px; font-weight: 500; }
-        .btn:hover { background: var(--color-background-secondary, #eee); }
-        .btn-primary { background: var(--color-background-info, #0056b3); color: var(--color-text-info, #fff); border-color: var(--color-border-info, #0056b3); }
-        .btn-primary:hover { opacity: 0.9; }
+    .btn-group { display: flex; gap: 12px; margin-top: 20px; }
+    .btn { padding: 10px 16px; border: 0.5px solid #ccc; border-radius: 4px; background: transparent; cursor: pointer; font-size: 14px; font-weight: 500; }
+    .btn:hover { background: #eee; }
+    .btn-primary { background: #000080; color: #fff; border-color: #000080; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .table-wrapper { overflow-x: auto; }
-        .table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .table th { background: var(--color-background-secondary, #eee); padding: 12px 8px; text-align: left; font-weight: 500; border-bottom: 0.5px solid var(--color-border-tertiary, #ccc); }
-        .table td { padding: 12px 8px; border-bottom: 0.5px solid var(--color-border-tertiary, #ccc); }
-        .table tr:hover { background: var(--color-background-secondary, #eee); }
+    .table-wrapper { overflow-x: auto; }
+    .table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .table th { background: #eee; padding: 12px 8px; text-align: left; font-weight: 500; border-bottom: 0.5px solid #ccc; }
+    .table td { padding: 12px 8px; border-bottom: 0.5px solid #ccc; }
+    .table tr:hover { background: #f9f9f9; }
 
-        .badge { display: inline-block; padding: 4px 10px; border-radius: var(--border-radius-md, 4px); font-size: 11px; font-weight: 500; }
-        .badge-aberta { background: var(--color-background-warning, #fff3cd); color: var(--color-text-warning, #856404); }
-        .badge-fechada { background: var(--color-background-success, #d4edda); color: var(--color-text-success, #155724); }
-        .badge-sim { background: var(--color-background-success, #d4edda); color: var(--color-text-success, #155724); }
-        .badge-nao { background: var(--color-background-info, #cff4fc); color: var(--color-text-info, #055160); }
-        .badge-com { background: var(--color-background-danger, #f8d7da); color: var(--color-text-danger, #842029); }
-        .badge-sem { background: var(--color-background-success, #d4edda); color: var(--color-text-success, #155724); }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+    .badge-aberta { background: #fff3cd; color: #856404; }
+    .badge-fechada { background: #d4edda; color: #155724; }
+    .badge-sim { background: #d4edda; color: #155724; }
+    .badge-nao { background: #cff4fc; color: #055160; }
+    .badge-com { background: #f8d7da; color: #842029; }
+    .badge-sem { background: #d4edda; color: #155724; }
 
-        .form-row.full { grid-template-columns: 1fr; }
-        .btn-edit, .btn-delete { padding: 4px 8px; font-size: 11px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .btn-edit { padding: 4px 8px; font-size: 11px; }
 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-    </style>
+    .loading { text-align: center; color: white; padding: 40px; font-size: 16px; }
+  </style>
 </head>
 <body>
 
-<div class="container">
-  
-  <!-- CABEÇALHO COM LOGO AO LADO DO TÍTULO -->
-  <div class="header-container">
-    <div class="logo-box">
-      <img src="data:image/png;base64,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" alt="Logo Mirin">
-    </div>
-    <div class="header">
-      <h1>rg 29 - controle de ocorrencias</h1>
-
-    </div>
+<!-- TELA DE LOGIN -->
+<div id="tela-login">
+  <div class="login-card">
+    <img id="logo-login" src="" alt="Logo Mirin">
+    <h2>RG 29</h2>
+    <p>Controle de Ocorrências — Mirin</p>
+    <input class="login-input" type="email" id="login-email" placeholder="seu@email.com">
+    <input class="login-input" type="password" id="login-senha" placeholder="Senha">
+    <button class="login-btn" onclick="fazerLogin()">Entrar</button>
+    <div class="login-erro" id="login-erro">E-mail ou senha incorretos.</div>
   </div>
+</div>
 
-  <div class="tabs">
-    <button class="tab-btn active" onclick="mudarAba('novo', this)">Registrar nova ocorrência</button>
-    <button class="tab-btn" onclick="mudarAba('lista', this)">Consultar ocorrências</button>
-  </div>
+<!-- APP PRINCIPAL -->
+<div id="app">
+  <div class="container">
+    <div class="header-container">
+      <div class="logo-box">
+        <img id="logo-app" src="" alt="Logo Mirin">
+      </div>
+      <div class="header">
+        <h1>RG 29 - Controle de Ocorrências</h1>
+      </div>
+      <div class="header-right">
+        <span class="usuario-badge" id="badge-unidade">---</span>
+        <button class="logout-btn" onclick="fazerLogout()">Sair</button>
+      </div>
+    </div>
 
-  <div class="tab-content active" id="novo">
-    <div class="form-card">
-      <h3>Nova ocorrência</h3>
-      
-      <div class="form-section">
-        <h4 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: var(--color-text-secondary, #666);">Identificação</h4>
-        <div class="form-row col3">
-          <div class="form-group">
-            <label>Número <span class="required">*</span></label>
-            <input type="text" id="numero" readonly style="background: var(--color-background-secondary, #eee);">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="mudarAba('novo', this)">Registrar nova ocorrência</button>
+      <button class="tab-btn" onclick="mudarAba('lista', this)">Consultar ocorrências</button>
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <div class="tab-content active" id="novo">
+      <div class="form-card">
+        <h3>Nova ocorrência</h3>
+
+        <div class="form-section">
+          <h4 style="font-size:14px;font-weight:500;margin-bottom:12px;color:#666;">Identificação</h4>
+          <div class="form-row col3">
+            <div class="form-group">
+              <label>Número <span class="required">*</span></label>
+              <input type="text" id="numero" readonly style="background:#eee;">
+            </div>
+            <div class="form-group">
+              <label>Data da ocorrência <span class="required">*</span></label>
+              <input type="date" id="data">
+            </div>
+            <div class="form-group">
+              <label>Unidade causadora <span class="required">*</span></label>
+              <select id="unidade">
+                <option value="">Selecione...</option>
+                <option value="CXS">CXS</option><option value="LGS">LGS</option>
+                <option value="FLN">FLN</option><option value="ARR">ARR</option>
+                <option value="JAG">JAG</option><option value="JVL">JVL</option>
+                <option value="CRC">CRC</option><option value="BRQ">BRQ</option>
+                <option value="TBO">TBO</option><option value="TUB">TUB</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4 style="font-size:14px;font-weight:500;margin-bottom:12px;color:#666;">Documento e transporte</h4>
+          <div class="form-row col3">
+            <div class="form-group">
+              <label>NF-e</label>
+              <input type="text" id="nfe" placeholder="Opcional">
+            </div>
+            <div class="form-group">
+              <label>CT-e <span class="required">*</span></label>
+              <input type="text" id="cte" placeholder="Obrigatório">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4 style="font-size:14px;font-weight:500;margin-bottom:12px;color:#666;">Informações da carga</h4>
+          <div class="form-row col3">
+            <div class="form-group">
+              <label>Remetente</label>
+              <input type="text" id="remetente" placeholder="Opcional">
+            </div>
+            <div class="form-group">
+              <label>Destinatário</label>
+              <input type="text" id="destinatario" placeholder="Opcional">
+            </div>
+            <div class="form-group">
+              <label>Volumes</label>
+              <input type="number" id="volumes" min="0" placeholder="Opcional">
+            </div>
+          </div>
+          <div class="form-row" style="margin-top:16px;">
+            <div class="form-group">
+              <label>Volumes com problema</label>
+              <input type="number" id="volumesProblema" min="0" placeholder="Opcional">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4 style="font-size:14px;font-weight:500;margin-bottom:12px;color:#666;">Reclamação</h4>
+          <div class="form-group" style="margin-bottom:12px;">
+            <label>Reclamação <span class="required">*</span></label>
+            <textarea id="reclamacao" placeholder="Descreva a reclamação do cliente..."></textarea>
           </div>
           <div class="form-group">
-            <label>Data da ocorrência <span class="required">*</span></label>
-            <input type="date" id="data">
-          </div>
-          <div class="form-group">
-            <label>Unidade causadora <span class="required">*</span></label>
-            <select id="unidade">
+            <label>Resumo da reclamação <span class="required">*</span></label>
+            <select id="resumo">
               <option value="">Selecione...</option>
-              <option value="CXS">CXS</option>
-              <option value="LGS">LGS</option>
-              <option value="FLN">FLN</option>
-              <option value="ARR">ARR</option>
-              <option value="JAG">JAG</option>
-              <option value="JVL">JVL</option>
-              <option value="CRC">CRC</option>
-              <option value="BRQ">BRQ</option>
-              <option value="TBO">TBO</option>
-              <option value="TUB">TUB</option>
+              <option>ARMAZENADA ERRADA</option><option>ATRASO NA ENTREGA</option>
+              <option>AVARIA BAIXA</option><option>NÃO REALIZADA NO SISTEMA</option>
+              <option>CARREGAMENTO/DESCARREGAMENTO ERRADO</option><option>CHECKLIST DE CARGA NÃO ENCONTRADO</option>
+              <option>COLETA ATRASADA</option><option>CT-E EMITIDO ERRADO</option>
+              <option>CT-E NÃO BAIXADO/CANCELADO/EXTRAVIADO/TROCADO</option><option>CT-E NÃO MANIFESTADO</option>
+              <option>CT-E SEM MARCA DA ÁGUA (BLOQUEADO)</option><option>CTRB NÃO LANÇADO</option>
+              <option>DESPACHO ERRADO/ATRASADO</option><option>EMBALAGEM AMASSADA</option>
+              <option>EMBALAGEM INAPROPRIADA</option><option>EMBALAGEM MOLHADA</option>
+              <option>EMBALAGEM RASGADA/ABERTA</option><option>ENTREGA ATRASADA</option>
+              <option>ENVIO DE MINUTA SEM AUTORIZAÇÃO</option><option>ETIQUETA ERRADA</option>
+              <option>ETIQUETA EXTRAVIADA</option><option>EXTRAVIO DE DOCUMENTOS</option>
+              <option>FALTA DE DOCUMENTAÇÃO</option><option>FALTA DE VOLUMES</option>
+              <option>FALTA DE VOLUMES NA COLETA</option><option>FALTA TOTAL</option>
+              <option>MÁ CONDUTA</option><option>MANIFESTADO ERRADO</option>
+              <option>MERCADORIA AMASSADA/TORTA</option><option>MERCADORIA ENFERRUJADA</option>
+              <option>MERCADORIA ENTREGUE ERRADA</option><option>MERCADORIA MOLHADA</option>
+              <option>MERCADORIA RASGADA/FURADA/QUEBRADA</option><option>MERCADORIA SEM ETIQUETA</option>
+              <option>MERCADORIA TOMBADA</option><option>NF-e ERRADA</option>
+              <option>ORDEM DE COLETA NÃO EMITIDA</option><option>PALETE QUEBRADO</option>
+              <option>SEM BIPAGEM</option><option>SEM CARTA DE ISENÇÃO</option>
+              <option>SEM COMPROVANTE DE ENTREGA</option><option>SEM CUBAGEM</option>
+              <option>SEM EXPRESSO</option><option>SEM IDENTIFICAÇÃO DE QUÍMICO NO VEÍCULO</option>
+              <option>SEM PALETIZAR</option><option>SEM RASTREAMENTO</option>
+              <option>SEM UNITIZAR</option><option>SOBRA DE VOLUMES</option>
+              <option>TROCA DE MERCADORIA</option><option>VEÍCULO SEM ESTAR LIMPO</option>
             </select>
           </div>
         </div>
-      </div>
 
-      <div class="form-section">
-        <h4 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: var(--color-text-secondary, #666);">Documento e transporte</h4>
-        <div class="form-row col3">
-          <div class="form-group">
-            <label>NF-e</label>
-            <input type="text" id="nfe" placeholder="Opcional">
+        <div class="form-section">
+          <h4 style="font-size:14px;font-weight:500;margin-bottom:12px;color:#666;">Correção e responsável</h4>
+          <div class="form-group" style="margin-bottom:12px;">
+            <label>Causador <span style="color:#666;font-weight:normal;">(opcional)</span></label>
+            <input type="text" id="causador" placeholder="Opcional">
           </div>
-          <div class="form-group">
-            <label>CT-e <span class="required">*</span></label>
-            <input type="text" id="cte" placeholder="Obrigatório">
+          <div class="form-group" style="margin-bottom:12px;">
+            <label>Correção imediata <span class="required">*</span></label>
+            <textarea id="correcao" placeholder="Descreva o que foi feito para corrigir o problema..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Responsável pela correção <span class="required">*</span></label>
+              <input type="text" id="responsavel" placeholder="Pessoa responsável para corrigir o problema">
+            </div>
+            <div class="form-group">
+              <label>Data da solução <span style="color:#666;font-weight:normal;">(preenche depois)</span></label>
+              <input type="date" id="dataSolucao">
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="form-section">
-        <h4 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: var(--color-text-secondary, #666);">Informações da carga</h4>
-        <div class="form-row col3">
-          <div class="form-group">
-            <label>Remetente</label>
-            <input type="text" id="remetente" placeholder="Opcional">
-          </div>
-          <div class="form-group">
-            <label>Destinatário</label>
-            <input type="text" id="destinatario" placeholder="Opcional">
-          </div>
-          <div class="form-group">
-            <label>Volumes</label>
-            <input type="number" id="volumes" min="0" placeholder="Opcional">
+        <div class="form-section">
+          <h4 style="font-size:14px;font-weight:500;margin-bottom:12px;color:#666;">Cliente e ressalva</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Houve contato com o cliente <span class="required">*</span></label>
+              <select id="contato">
+                <option value="">Selecione...</option>
+                <option value="sim">Sim</option>
+                <option value="nao">Não</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Ressalva <span class="required">*</span></label>
+              <select id="ressalva">
+                <option value="">Selecione...</option>
+                <option value="com">Com ressalva</option>
+                <option value="sem">Sem ressalva</option>
+              </select>
+            </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Volumes com problema</label>
-            <input type="number" id="volumesProblema" min="0" placeholder="Opcional">
-          </div>
-        </div>
-      </div>
 
-      <div class="form-section">
-        <h4 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: var(--color-text-secondary, #666);">Reclamação</h4>
-        <div class="form-group" style="margin-bottom: 12px;">
-          <label>Reclamação <span class="required">*</span></label>
-          <textarea id="reclamacao" placeholder="Descreva a reclamação do cliente..."></textarea>
+        <div class="btn-group">
+          <button class="btn btn-primary" id="btn-salvar" onclick="salvarOcorrencia()">Salvar ocorrência</button>
+          <button class="btn" onclick="limparFormulario()">Limpar</button>
         </div>
-        <div class="form-group">
-          <label>Resumo da reclamação <span class="required">*</span></label>
-          <select id="resumo">
-            <option value="">Selecione...</option>
-            <option value="ARMAZENADA ERRADA">ARMAZENADA ERRADA</option>
-            <option value="ATRASO NA ENTREGA">ATRASO NA ENTREGA</option>
-            <option value="AVARIA BAIXA">AVARIA BAIXA</option>
-            <option value="NÃO REALIZADA NO SISTEMA">NÃO REALIZADA NO SISTEMA</option>
-            <option value="CARREGAMENTO/DESCARREGAMENTO ERRADO">CARREGAMENTO/DESCARREGAMENTO ERRADO</option>
-            <option value="CHECKLIST DE CARGA NÃO ENCONTRADO">CHECKLIST DE CARGA NÃO ENCONTRADO</option>
-            <option value="COLETA ATRASADA">COLETA ATRASADA</option>
-            <option value="CT-E EMITIDO ERRADO">CT-E EMITIDO ERRADO</option>
-            <option value="CT-E NÃO BAIXADO/CANCELADO/EXTRAVIADO/TROCADO">CT-E NÃO BAIXADO/CANCELADO/EXTRAVIADO/TROCADO</option>
-            <option value="CT-E NÃO MANIFESTADO">CT-E NÃO MANIFESTADO</option>
-            <option value="CT-E SEM MARCA DA ÁGUA (BLOQUEADO)">CT-E SEM MARCA DA ÁGUA (BLOQUEADO)</option>
-            <option value="CTRB NÃO LANÇADO">CTRB NÃO LANÇADO</option>
-            <option value="DESPACHO ERRADO/ATRASADO">DESPACHO ERRADO/ATRASADO</option>
-            <option value="EMBALAGEM AMASSADA">EMBALAGEM AMASSADA</option>
-            <option value="EMBALAGEM INAPROPRIADA">EMBALAGEM INAPROPRIADA</option>
-            <option value="EMBALAGEM MOLHADA">EMBALAGEM MOLHADA</option>
-            <option value="EMBALAGEM RASGADA/ABERTA">EMBALAGEM RASGADA/ABERTA</option>
-            <option value="ENTREGA ATRASADA">ENTREGA ATRASADA</option>
-            <option value="ENVIO DE MINUTA SEM AUTORIZAÇÃO">ENVIO DE MINUTA SEM AUTORIZAÇÃO</option>
-            <option value="ETIQUETA ERRADA">ETIQUETA ERRADA</option>
-            <option value="ETIQUETA EXTRAVIADA">ETIQUETA EXTRAVIADA</option>
-            <option value="EXTRAVIO DE DOCUMENTOS">EXTRAVIO DE DOCUMENTOS</option>
-            <option value="FALTA DE DOCUMENTAÇÃO">FALTA DE DOCUMENTAÇÃO</option>
-            <option value="FALTA DE VOLUMES">FALTA DE VOLUMES</option>
-            <option value="FALTA DE VOLUMES NA COLETA">FALTA DE VOLUMES NA COLETA</option>
-            <option value="FALTA TOTAL">FALTA TOTAL</option>
-            <option value="MÁ CONDUTA">MÁ CONDUTA</option>
-            <option value="MANIFESTADO ERRADO">MANIFESTADO ERRADO</option>
-            <option value="MERCADORIA AMASSADA/TORTA">MERCADORIA AMASSADA/TORTA</option>
-            <option value="MERCADORIA ENFERRUJADA">MERCADORIA ENFERRUJADA</option>
-            <option value="MERCADORIA ENTREGUE ERRADA">MERCADORIA ENTREGUE ERRADA</option>
-            <option value="MERCADORIA MOLHADA">MERCADORIA MOLHADA</option>
-            <option value="MERCADORIA RASGADA/FURADA/QUEBRADA">MERCADORIA RASGADA/FURADA/QUEBRADA</option>
-            <option value="MERCADORIA SEM ETIQUETA">MERCADORIA SEM ETIQUETA</option>
-            <option value="MERCADORIA TOMBADA">MERCADORIA TOMBADA</option>
-            <option value="NF-e ERRADA">NF-e ERRADA</option>
-            <option value="ORDEM DE COLETA NÃO EMITIDA">ORDEM DE COLETA NÃO EMITIDA</option>
-            <option value="PALETE QUEBRADO">PALETE QUEBRADO</option>
-            <option value="SEM BIPAGEM">SEM BIPAGEM</option>
-            <option value="SEM CARTA DE ISENÇÃO">SEM CARTA DE ISENÇÃO</option>
-            <option value="SEM COMPROVANTE DE ENTREGA">SEM COMPROVANTE DE ENTREGA</option>
-            <option value="SEM CUBAGEM">SEM CUBAGEM</option>
-            <option value="SEM EXPRESSO">SEM EXPRESSO</option>
-            <option value="SEM IDENTIFICAÇÃO DE QUÍMICO NO VEÍCULO">SEM IDENTIFICAÇÃO DE QUÍMICO NO VEÍCULO</option>
-            <option value="SEM PALETIZAR">SEM PALETIZAR</option>
-            <option value="SEM RASTREAMENTO">SEM RASTREAMENTO</option>
-            <option value="SEM UNITIZAR">SEM UNITIZAR</option>
-            <option value="SOBRA DE VOLUMES">SOBRA DE VOLUMES</option>
-            <option value="TROCA DE MERCADORIA">TROCA DE MERCADORIA</option>
-            <option value="VEÍCULO SEM ESTAR LIMPO">VEÍCULO SEM ESTAR LIMPO</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-section">
-        <h4 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: var(--color-text-secondary, #666);">Correção e responsável</h4>
-        <div class="form-group" style="margin-bottom: 12px;">
-          <label>Causador <span style="color: var(--color-text-secondary, #666); font-weight: normal;">(opcional)</span></label>
-          <input type="text" id="causador" placeholder="Opcional">
-        </div>
-        <div class="form-group" style="margin-bottom: 12px;">
-          <label>Correção imediata <span class="required">*</span></label>
-          <textarea id="correcao" placeholder="Descreva o que foi feito para corrigir o problema..."></textarea>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Responsável pela correção <span class="required">*</span></label>
-            <input type="text" id="responsavel" placeholder="Pessoa responsável para corrigir o problema">
-          </div>
-          <div class="form-group">
-            <label>Data da solução <span style="color: var(--color-text-secondary, #666); font-weight: normal;">(preenche depois)</span></label>
-            <input type="date" id="dataSolucao">
-          </div>
-        </div>
-      </div>
-
-      <div class="form-section">
-        <h4 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: var(--color-text-secondary, #666);">Cliente e ressalva</h4>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Houve contato com o cliente <span class="required">*</span></label>
-            <select id="contato">
-              <option value="">Selecione...</option>
-              <option value="sim">Sim</option>
-              <option value="nao">Não</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Ressalva <span class="required">*</span></label>
-            <select id="ressalva">
-              <option value="">Selecione...</option>
-              <option value="com">Com ressalva</option>
-              <option value="sem">Sem ressalva</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="btn-group">
-        <button class="btn btn-primary" onclick="salvarOcorrencia()">Salvar ocorrência</button>
-        <button class="btn" onclick="limparFormulario()">Limpar</button>
       </div>
     </div>
-  </div>
 
-  <div class="tab-content" id="lista">
-    <div class="form-card">
-      <h3>Ocorrências registradas</h3>
-      <div class="table-wrapper">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Nº</th>
-              <th>Data</th>
-              <th>Unidade</th>
-              <th>Resumo</th>
-              <th>Destinatário</th>
-              <th>Contato cliente</th>
-              <th>Ressalva</th>
-              <th>Status</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-ocorrencias"></tbody>
-        </table>
+    <!-- LISTA -->
+    <div class="tab-content" id="lista">
+      <div class="form-card">
+        <h3>Ocorrências registradas</h3>
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nº</th><th>Data</th><th>Unid. Reg.</th><th>Unid. Causadora</th>
+                <th>Resumo</th><th>Destinatário</th><th>Contato</th><th>Ressalva</th>
+                <th>Status</th><th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-ocorrencias"></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<script>
-const UNIDADES = ['CXS', 'LGS', 'FLN', 'ARR', 'JAG', 'JVL', 'CRC', 'BRQ', 'TBO', 'TUB'];
-let dados = [];
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-function carregarDados() {
-  const saved = localStorage.getItem('rg29_dados');
-  if (saved) dados = JSON.parse(saved);
-  atualizarNumero();
-}
+  const firebaseConfig = {
+    apiKey: "AIzaSyD9LEeiOOIBlSNKY44j9ajPCp4T1PPp_f4",
+    authDomain: "rg29-75af8.firebaseapp.com",
+    projectId: "rg29-75af8",
+    storageBucket: "rg29-75af8.firebasestorage.app",
+    messagingSenderId: "843460649372",
+    appId: "1:843460649372:web:6bc6b14f35684ccf47a859"
+  };
 
-function salvarDados() {
-  localStorage.setItem('rg29_dados', JSON.stringify(dados));
-}
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-function atualizarNumero() {
-  const proximo = dados.length + 1;
-  document.getElementById('numero').value = proximo.toString().padStart(3, '0');
-}
+  // Logo em base64 (mantido do arquivo original)
+  const LOGO_B64 = document.querySelector ? '' : '';
 
-function mudarAba(aba, botao) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-  document.getElementById(aba).classList.add('active');
-  if (botao) {
-    botao.classList.add('active');
-  } else {
-    // Caso venha da edição
-    document.querySelectorAll('.tab-btn')[0].add('active');
-  }
-  if (aba === 'lista') renderizarTabela();
-}
+  let usuarioAtual = null;
+  let unidadeRegistro = null;
+  let ocorrenciasCache = [];
+  let editandoId = null;
 
-function validarObrigatorios() {
-  const campos = ['data', 'unidade', 'cte', 'reclamacao', 'resumo', 'correcao', 'responsavel', 'contato', 'ressalva'];
-  for (let campo of campos) {
-    if (!document.getElementById(campo).value) {
-      alert('Campo obrigatório: ' + campo);
-      return false;
+  // ─── LOGO ───────────────────────────────────────────────
+  // Buscamos a img do arquivo original para reusar o base64
+  // Vai ser injetado via JS abaixo
+
+  // ─── AUTH ───────────────────────────────────────────────
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      usuarioAtual = user;
+      // Extrai sigla antes do @ → cxs@mirin.com.br → CXS
+      unidadeRegistro = user.email.split('@')[0].toUpperCase();
+      document.getElementById('tela-login').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      document.getElementById('badge-unidade').textContent = unidadeRegistro;
+      iniciarApp();
+    } else {
+      document.getElementById('tela-login').style.display = 'flex';
+      document.getElementById('app').style.display = 'none';
     }
+  });
+
+  window.fazerLogin = async function() {
+    const email = document.getElementById('login-email').value.trim();
+    const senha = document.getElementById('login-senha').value;
+    const erro = document.getElementById('login-erro');
+    erro.style.display = 'none';
+    try {
+      await signInWithEmailAndPassword(auth, email, senha);
+    } catch (e) {
+      erro.style.display = 'block';
+    }
+  };
+
+  window.fazerLogout = async function() {
+    await signOut(auth);
+  };
+
+  // Enter no login
+  document.getElementById('login-senha').addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.fazerLogin();
+  });
+
+  // ─── APP ────────────────────────────────────────────────
+  function iniciarApp() {
+    // Listener em tempo real — atualiza tabela automaticamente
+    const q = query(collection(db, 'ocorrencias'), orderBy('criadoEm', 'desc'));
+    onSnapshot(q, (snapshot) => {
+      ocorrenciasCache = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      atualizarNumero();
+      if (document.getElementById('lista').classList.contains('active')) {
+        renderizarTabela();
+      }
+    });
+    document.getElementById('data').valueAsDate = new Date();
   }
-  return true;
-}
 
-function salvarOcorrencia() {
-  if (!validarObrigatorios()) return;
+  function atualizarNumero() {
+    const proximo = ocorrenciasCache.length + 1;
+    document.getElementById('numero').value = proximo.toString().padStart(3, '0');
+  }
 
-  const ocorrencia = {
-    numero: document.getElementById('numero').value,
-    data: document.getElementById('data').value,
-    nfe: document.getElementById('nfe').value || null,
-    cte: document.getElementById('cte').value || null,
-    remetente: document.getElementById('remetente').value || null,
-    destinatario: document.getElementById('destinatario').value,
-    volumes: document.getElementById('volumes').value || null,
-    volumesProblema: document.getElementById('volumesProblema').value || null,
-    reclamacao: document.getElementById('reclamacao').value,
-    resumo: document.getElementById('resumo').value,
-    unidade: document.getElementById('unidade').value,
-    causador: document.getElementById('causador').value || null,
-    correcao: document.getElementById('correcao').value,
-    responsavel: document.getElementById('responsavel').value,
-    dataSolucao: document.getElementById('dataSolucao').value || null,
-    contato: document.getElementById('contato').value,
-    ressalva: document.getElementById('ressalva').value,
-    status: document.getElementById('dataSolucao').value ? 'fechada' : 'aberta',
-    dataCriacao: new Date().toISOString()
+  // ─── SALVAR ─────────────────────────────────────────────
+  window.salvarOcorrencia = async function() {
+    if (!validarObrigatorios()) return;
+    const btn = document.getElementById('btn-salvar');
+    btn.disabled = true;
+    btn.textContent = 'Salvando...';
+
+    const dataSolucao = document.getElementById('dataSolucao').value || null;
+
+    const ocorrencia = {
+      numero: document.getElementById('numero').value,
+      data: document.getElementById('data').value,
+      nfe: document.getElementById('nfe').value || null,
+      cte: document.getElementById('cte').value,
+      remetente: document.getElementById('remetente').value || null,
+      destinatario: document.getElementById('destinatario').value || null,
+      volumes: document.getElementById('volumes').value || null,
+      volumesProblema: document.getElementById('volumesProblema').value || null,
+      reclamacao: document.getElementById('reclamacao').value,
+      resumo: document.getElementById('resumo').value,
+      unidadeCausadora: document.getElementById('unidade').value,
+      unidadeRegistro: unidadeRegistro,
+      registradoPor: usuarioAtual.email,
+      causador: document.getElementById('causador').value || null,
+      correcao: document.getElementById('correcao').value,
+      responsavel: document.getElementById('responsavel').value,
+      dataSolucao: dataSolucao,
+      contato: document.getElementById('contato').value,
+      ressalva: document.getElementById('ressalva').value,
+      status: dataSolucao ? 'fechada' : 'aberta',
+      criadoEm: new Date().toISOString()
+    };
+
+    try {
+      if (editandoId) {
+        await updateDoc(doc(db, 'ocorrencias', editandoId), ocorrencia);
+        alert('Ocorrência atualizada!');
+        editandoId = null;
+      } else {
+        await addDoc(collection(db, 'ocorrencias'), ocorrencia);
+        alert('Ocorrência salva com sucesso!');
+      }
+      limparFormulario();
+    } catch (e) {
+      alert('Erro ao salvar: ' + e.message);
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Salvar ocorrência';
   };
 
-  dados.push(ocorrencia);
-  salvarDados();
-  alert('Ocorrência salva com sucesso!');
-  limparFormulario();
-  atualizarNumero();
-}
+  // ─── EDITAR ─────────────────────────────────────────────
+  window.editarOcorrencia = function(id) {
+    const o = ocorrenciasCache.find(x => x.id === id);
+    if (!o) return;
+    editandoId = id;
 
-function limparFormulario() {
-  document.getElementById('data').value = new Date().toISOString().split('T')[0];
-  document.getElementById('nfe').value = '';
-  document.getElementById('cte').value = '';
-  document.getElementById('remetente').value = '';
-  document.getElementById('destinatario').value = '';
-  document.getElementById('volumes').value = '';
-  document.getElementById('volumesProblema').value = '';
-  document.getElementById('reclamacao').value = '';
-  document.getElementById('resumo').value = '';
-  document.getElementById('unidade').value = '';
-  document.getElementById('causador').value = '';
-  document.getElementById('correcao').value = '';
-  document.getElementById('responsavel').value = '';
-  document.getElementById('dataSolucao').value = '';
-  document.getElementById('contato').value = '';
-  document.getElementById('ressalva').value = '';
-  atualizarNumero();
-}
+    document.getElementById('numero').value = o.numero;
+    document.getElementById('data').value = o.data;
+    document.getElementById('nfe').value = o.nfe || '';
+    document.getElementById('cte').value = o.cte || '';
+    document.getElementById('remetente').value = o.remetente || '';
+    document.getElementById('destinatario').value = o.destinatario || '';
+    document.getElementById('volumes').value = o.volumes || '';
+    document.getElementById('volumesProblema').value = o.volumesProblema || '';
+    document.getElementById('reclamacao').value = o.reclamacao;
+    document.getElementById('resumo').value = o.resumo;
+    document.getElementById('unidade').value = o.unidadeCausadora;
+    document.getElementById('causador').value = o.causador || '';
+    document.getElementById('correcao').value = o.correcao;
+    document.getElementById('responsavel').value = o.responsavel;
+    document.getElementById('dataSolucao').value = o.dataSolucao || '';
+    document.getElementById('contato').value = o.contato;
+    document.getElementById('ressalva').value = o.ressalva;
 
-function renderizarTabela() {
-  const tbody = document.getElementById('tabela-ocorrencias');
-  tbody.innerHTML = dados.map(o => {
-    return '<tr>' +
-      '<td>' + o.numero + '</td>' +
-      '<td>' + new Date(o.data).toLocaleDateString('pt-BR') + '</td>' +
-      '<td>' + o.unidade + '</td>' +
-      '<td>' + o.resumo.substring(0, 25) + '...</td>' +
-      '<td>' + o.destinatario.substring(0, 25) + '...</td>' +
-      '<td><span class="badge badge-' + (o.contato === 'sim' ? 'sim' : 'nao') + '">' + (o.contato === 'sim' ? 'Sim' : 'Não') + '</span></td>' +
-      '<td><span class="badge badge-' + (o.ressalva === 'com' ? 'com' : 'sem') + '">' + (o.ressalva === 'com' ? 'Com' : 'Sem') + '</span></td>' +
-      '<td><span class="badge badge-' + o.status + '">' + (o.status === 'aberta' ? 'Aberta' : 'Fechada') + '</span></td>' +
-      '<td><button class="btn btn-edit" onclick="editarOcorrencia(' + dados.indexOf(o) + ')">Editar</button></td>' +
-    '</tr>';
-  }).join('');
-}
-
-function editarOcorrencia(index) {
-  const o = dados[index];
-  document.getElementById('numero').value = o.numero;
-  document.getElementById('data').value = o.data;
-  document.getElementById('nfe').value = o.nfe || '';
-  document.getElementById('cte').value = o.cte || '';
-  document.getElementById('remetente').value = o.remetente || '';
-  document.getElementById('destinatario').value = o.destinatario;
-  document.getElementById('volumes').value = o.volumes || '';
-  document.getElementById('volumesProblema').value = o.volumesProblema || '';
-  document.getElementById('reclamacao').value = o.reclamacao;
-  document.getElementById('resumo').value = o.resumo;
-  document.getElementById('unidade').value = o.unidade;
-  document.getElementById('causador').value = o.causador || '';
-  document.getElementById('correcao').value = o.correcao;
-  document.getElementById('responsavel').value = o.responsavel;
-  document.getElementById('dataSolucao').value = o.dataSolucao || '';
-  document.getElementById('contato').value = o.contato;
-  document.getElementById('ressalva').value = o.ressalva;
-  
-  mudarAba('novo', document.querySelectorAll('.tab-btn')[0]);
-  
-  const btn = document.querySelector('.btn-primary');
-  btn.textContent = 'Atualizar ocorrência';
-  btn.onclick = () => atualizarOcorrencia(index);
-}
-
-function atualizarOcorrencia(index) {
-  if (!validarObrigatorios()) return;
-  
-  const dataSolucao = document.getElementById('dataSolucao').value;
-  
-  dados[index] = {
-    ...dados[index],
-    data: document.getElementById('data').value,
-    nfe: document.getElementById('nfe').value || null,
-    cte: document.getElementById('cte').value || null,
-    remetente: document.getElementById('remetente').value || null,
-    destinatario: document.getElementById('destinatario').value,
-    volumes: document.getElementById('volumes').value || null,
-    volumesProblema: document.getElementById('volumesProblema').value || null,
-    reclamacao: document.getElementById('reclamacao').value,
-    resumo: document.getElementById('resumo').value,
-    unidade: document.getElementById('unidade').value,
-    causador: document.getElementById('causador').value || null,
-    correcao: document.getElementById('correcao').value,
-    responsavel: document.getElementById('responsavel').value,
-    dataSolucao: dataSolucao || null,
-    contato: document.getElementById('contato').value,
-    ressalva: document.getElementById('ressalva').value,
-    status: dataSolucao ? 'fechada' : 'aberta'
+    document.getElementById('btn-salvar').textContent = 'Atualizar ocorrência';
+    mudarAba('novo', document.querySelectorAll('.tab-btn')[0]);
   };
-  
-  salvarDados();
-  alert('Ocorrência atualizada!');
-  limparFormulario();
-  const btn = document.querySelector('.btn-primary');
-  btn.textContent = 'Salvar ocorrência';
-  btn.onclick = () => salvarOcorrencia();
-}
 
-document.getElementById('data').valueAsDate = new Date();
-carregarDados();
+  // ─── TABELA ─────────────────────────────────────────────
+  function renderizarTabela() {
+    const tbody = document.getElementById('tabela-ocorrencias');
+    if (ocorrenciasCache.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#999;padding:20px;">Nenhuma ocorrência registrada.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = ocorrenciasCache.map(o => `
+      <tr>
+        <td>${o.numero}</td>
+        <td>${o.data ? new Date(o.data + 'T12:00:00').toLocaleDateString('pt-BR') : '-'}</td>
+        <td><strong>${o.unidadeRegistro || '-'}</strong></td>
+        <td>${o.unidadeCausadora || '-'}</td>
+        <td title="${o.resumo}">${o.resumo ? o.resumo.substring(0,22)+'...' : '-'}</td>
+        <td>${o.destinatario ? o.destinatario.substring(0,18)+'...' : '-'}</td>
+        <td><span class="badge badge-${o.contato==='sim'?'sim':'nao'}">${o.contato==='sim'?'Sim':'Não'}</span></td>
+        <td><span class="badge badge-${o.ressalva==='com'?'com':'sem'}">${o.ressalva==='com'?'Com':'Sem'}</span></td>
+        <td><span class="badge badge-${o.status}">${o.status==='aberta'?'Aberta':'Fechada'}</span></td>
+        <td><button class="btn btn-edit" onclick="editarOcorrencia('${o.id}')">Editar</button></td>
+      </tr>
+    `).join('');
+  }
+
+  // ─── HELPERS ────────────────────────────────────────────
+  window.mudarAba = function(aba, botao) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(aba).classList.add('active');
+    if (botao) botao.classList.add('active');
+    if (aba === 'lista') renderizarTabela();
+  };
+
+  window.limparFormulario = function() {
+    editandoId = null;
+    document.getElementById('btn-salvar').textContent = 'Salvar ocorrência';
+    document.getElementById('data').valueAsDate = new Date();
+    ['nfe','cte','remetente','destinatario','reclamacao','causador','correcao','responsavel'].forEach(id => document.getElementById(id).value = '');
+    ['volumes','volumesProblema'].forEach(id => document.getElementById(id).value = '');
+    ['resumo','unidade','contato','ressalva'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('dataSolucao').value = '';
+    atualizarNumero();
+  };
+
+  function validarObrigatorios() {
+    const campos = ['data','unidade','cte','reclamacao','resumo','correcao','responsavel','contato','ressalva'];
+    const nomes = {
+      data:'Data', unidade:'Unidade causadora', cte:'CT-e',
+      reclamacao:'Reclamação', resumo:'Resumo da reclamação',
+      correcao:'Correção imediata', responsavel:'Responsável',
+      contato:'Contato com cliente', ressalva:'Ressalva'
+    };
+    for (let campo of campos) {
+      if (!document.getElementById(campo).value) {
+        alert('Campo obrigatório: ' + nomes[campo]);
+        document.getElementById(campo).focus();
+        return false;
+      }
+    }
+    return true;
+  }
 </script>
 </body>
 </html>
+HTMLEOF
+echo "Arquivo criado com sucesso"
+Saída
+
+Arquivo criado com sucesso
+Concluído
