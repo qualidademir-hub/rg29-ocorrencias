@@ -25,21 +25,19 @@
     /* APP PRINCIPAL */
     #app { display: none; }
     
-    /* Reduzido a largura máxima e ajustado margens laterais */
     .container { max-width: 1200px; margin: 0 auto; padding: 15px 25px; }
 
-    /* ESTRUTURA DO TOPO CORRIGIDA */
+    /* ESTRUTURA DO TOPO */
     .header-container { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 24px; background: white; padding: 15px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
     .logo-box { display: flex; align-items: center; flex-shrink: 0; height: 50px; width: 130px; justify-content: center; }
     .logo-box img { max-height: 100%; max-width: 100%; display: block; object-fit: contain; }
     
-    /* Preenche o espaço em branco à direita em linha única e tamanho equilibrado */
     .header { flex-grow: 1; display: flex; align-items: center; white-space: nowrap; overflow: hidden; }
     .header h1 { font-size: 26px; font-weight: 800; text-transform: uppercase; color: #000080; letter-spacing: 0.3px; font-family: 'Georgia', serif; margin: 0; line-height: 1.2; }
     
     .header-right-panel { display: flex; align-items: center; gap: 15px; flex-shrink: 0; }
     
-    /* Card ISO Totalmente Centralizado */
+    /* Card ISO */
     .iso-info-card { background: #fdfdfd; padding: 10px 16px; border-radius: 8px; border: 1px dashed #000080; display: flex; gap: 16px; justify-content: center; align-items: center; }
     .iso-field-group { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
     .iso-field-group span { font-size: 10px; font-weight: 700; color: #555; text-transform: uppercase; margin-bottom: 4px; text-align: center; width: 100%; }
@@ -146,6 +144,7 @@
 <div id="app">
   <div class="container">
     
+    <!-- CABEÇALHO -->
     <div class="header-container">
       <div class="logo-box">
         <img src="https://mirindosul.com.br/wp-content/themes/estrutura-basica/assets/images/logo.png" alt="Viação Mirim Logo">
@@ -182,6 +181,7 @@
       <button class="tab-btn" id="aba-dashboard" onclick="mudarAba('dashboard', this)">Dashboard Geral</button>
     </div>
 
+    <!-- ABA 1: REGISTRO -->
     <div class="tab-content active" id="novo">
       <div class="form-card">
         <h3>Nova ocorrência</h3>
@@ -311,6 +311,7 @@
       </div>
     </div>
 
+    <!-- ABA 2: CONSULTAR -->
     <div class="tab-content" id="lista">
       <div class="form-card">
         <h3>Consultar e Filtrar Ocorrências</h3>
@@ -371,6 +372,7 @@
       </div>
     </div>
 
+    <!-- ABA 3: PARÂMETROS -->
     <div class="tab-content" id="parametros">
       <div class="form-card">
         <h3>Configurações de Listas Dinâmicas (Campos Globais)</h3>
@@ -398,6 +400,7 @@
       </div>
     </div>
 
+    <!-- ABA 4: DASHBOARD -->
     <div class="tab-content" id="dashboard">
       <div class="form-card">
         <h3>Painel de Controle Estatístico</h3>
@@ -511,11 +514,15 @@
       document.getElementById('tela-login').style.display = 'none';
       document.getElementById('app').style.display = 'block';
       
+      const filtroRegistradoraBox = document.getElementById('f-box-registradora');
+
       if (usuarioUnidade === 'MATRIZ') {
         document.querySelectorAll('.tab-qualidade').forEach(el => el.style.display = 'block');
         document.querySelectorAll('.iso-editable').forEach(el => el.removeAttribute('readonly'));
+        if (filtroRegistradoraBox) filtroRegistradoraBox.style.display = 'flex';
       } else {
         document.querySelectorAll('.tab-qualidade').forEach(el => el.style.display = 'none');
+        if (filtroRegistradoraBox) filtroRegistradoraBox.style.display = 'none';
       }
       inicializarParametrosESistemas();
     } else {
@@ -773,7 +780,7 @@
     const fDat = document.getElementById('f-data').value;
     const fUni = document.getElementById('f-unidade').value;
     const fSta = document.getElementById('f-status').value;
-    const fReg = document.getElementById('f-registradora').value;
+    const fReg = document.getElementById('f-registradora') ? document.getElementById('f-registradora').value : '';
     
     const fCteSig = document.getElementById('f-cte-sigla').value.trim().toUpperCase();
     const fCteNum = document.getElementById('f-cte-numero').value.trim();
@@ -786,7 +793,7 @@
       if (fNum && !o.numero.includes(fNum)) return false;
       if (fDat && o.data !== fDat) return false;
       if (fUni && o.unidadeCausadora !== fUni) return false;
-      if (fReg && uReg !== fReg) return false;
+      if (usuarioUnidade === "MATRIZ" && fReg && uReg !== fReg) return false;
       if (fSta && o.status !== fSta) return false;
       
       if (o.cte) {
